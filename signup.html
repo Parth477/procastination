@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Signup</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="login">
+
+<div class="box">
+
+<h1>⚡ ProcrastiTrack</h1>
+<h3>Create Account</h3>
+
+<form action="/signup" method="POST">
+
+<input name="username" placeholder="Enter Username" required>
+<input name="password" type="password" placeholder="Enter Password" required>
+
+<button>SIGN UP</button>
+
+</form>
+
+<br>
+
+<a href="/">Back to Login</a>
+
+</div>
+
+</body>
+</html>

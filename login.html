@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ProcrastiTrack</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body class="login">
+
+<!-- LOADER -->
+<div id="loader">
+
+<div class="orbit">
+<div class="icon icon1">🧠</div>
+<div class="icon icon2">⏳</div>
+<div class="icon icon3">⏱</div>
+<div class="icon icon4">📊</div>
+<div class="center"></div>
+</div>
+
+<div class="loadtext">Detecting procrastination patterns...</div>
+
+</div>
+
+<!-- LOGIN BOX -->
+<div class="box" id="mainbox" style="display:none;">
+
+<h1>⚡ ProcrastiTrack</h1>
+<p id="quote"></p>
+
+<form action="/dashboard" method="POST">
+<input name="username" placeholder="Enter Username" required>
+<input name="password" type="password" placeholder="Enter Password" required>
+<button>LOGIN</button>
+</form>
+
+<br>
+<a href="/signup">Create New Account</a>
+
+</div>
+
+<script>
+window.onload = function(){
+
+setTimeout(function(){
+document.getElementById("loader").style.display="none";
+document.getElementById("mainbox").style.display="block";
+},2000);
+
+// RANDOM QUOTES
+let quotes = [
+"Small progress is still progress 🚀",
+"Focus today. Win tomorrow ⚡",
+"Your future is built in silent hours 🌙",
+"Discipline beats motivation 🔥",
+"Start before you feel ready 💡"
+];
+
+let random = Math.floor(Math.random() * quotes.length);
+document.getElementById("quote").innerText = quotes[random];
+
+}
+</script>
+
+</body>
+</html>

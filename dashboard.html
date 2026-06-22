@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dashboard</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body class="dashboard">
+
+<div class="main">
+
+<!-- TOP BAR -->
+<div class="topbar">
+<h2>⚡ ProcrastiTrack</h2>
+<div>
+<span>{{ user }}</span>
+<a href="/">Logout</a>
+</div>
+</div>
+
+<h1 class="welcome">Welcome, {{ user }} 👋</h1>
+<h3 id="motivation" style="color:cyan;"></h3>
+
+<!-- GRID -->
+<div class="grid">
+
+<!-- PROFILE -->
+<div class="profile">
+<h3>👤 {{ user }}</h3>
+<p>Stay focused. Stay sharp 🚀</p>
+</div>
+
+<!-- STATS -->
+<div class="card">
+<h3>Total Tasks</h3>
+<p>{{ tasks|length }}</p>
+</div>
+
+<div class="card">
+<h3>Completed</h3>
+<p>{{ tasks | selectattr("done", "equalto", True) | list | length }}</p>
+</div>
+
+<div class="card">
+<h3>Score</h3>
+<p id="score">0%</p>
+</div>
+
+<!-- PROGRESS -->
+<div class="progressbox big">
+<div class="progress" style="width: {{ scores }}%"></div>
+</div>
+
+<!-- ADD TASK -->
+<div class="card big">
+<form action="/addtask" method="POST" class="taskform">
+<input name="task" placeholder="Enter task..." required>
+<input type="hidden" name="username" value="{{ user }}">
+<button>Add</button>
+</form>
+</div>
+
+<!-- TASK LIST -->
+<div class="card big">
+
+<ul class="tasklist">
+
+{% for t in tasks %}
+
+<li class="taskitem">
+
+{% if t.done %}
+<span class="done">✔ {{ t.task }}</span>
+{% else %}
+<span>{{ t.task }}</span>
+{% endif %}
+
+<div>
+
+{% if not t.done %}
+<form action="/complete" method="POST">
+<input type="hidden" name="task" value="{{ t.task }}">
+<input type="hidden" name="username" value="{{ user }}">
+<button class="donebtn">Done</button>
+</form>
+{% endif %}
+
+<form action="/delete" method="POST">
+<input type="hidden" name="task" value="{{ t.task }}">
+<input type="hidden" name="username" value="{{ user }}">
+<button class="deletebtn">Delete</button>
+</form> 
+
+<script>
+let msgs = [
+"You're doing great 🚀",
+"Stay consistent 💪",
+"Beat procrastination today ⚡",
+"Small steps = big success 🔥",
+"Focus mode ON 🧠"
+];
+
+let m = Math.floor(Math.random()*msgs.length);
+document.getElementById("motivation").innerText = msgs[m];
+
+// Animated Score
+let finalScore = {{ score }};
+let count = 0;
+
+let interval = setInterval(() => {
+if(count <= finalScore){
+document.getElementById("score").innerText = count + "%";
+count++;
+} else {
+clearInterval(interval);
+}
+}, 20);
+
+
+// Smart Warning
+let warning = "";
+
+if(finalScore < 30){
+warning = "⚠️ You're procrastinating too much!";
+}
+else if(finalScore < 70){
+warning = "😐 You can do better!";
+}
+else{
+warning = "🔥 Great productivity!";
+}
+
+let warnEl = document.createElement("h3");
+warnEl.innerText = warning;
+warnEl.style.color = "orange";
+
+document.querySelector(".main").appendChild(warnEl);
+
+</script>
+
+<div class="stats">
+
+<div class="card">
+<h3>Total Tasks</h3>
+<p>{{ tasks|length }}</p>
+</div>
+
+<div class="card">
+<h3>Completed</h3>
+<p>{{ tasks | selectattr("done", "equalto", True) | list | length }}</p>
+</div>
+
+<div class="card">
+<h3>Score</h3>
+<p id="score">0%</p>
+</div>
+
+</div>
+
+</div>
+
+</li>
+
+{% endfor %}
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
